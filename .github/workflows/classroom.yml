@@ -1,0 +1,44 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: tests\test_task2.py
+      id: tests-test_task2-py
+      uses: classroom-resources/autograding-python-grader@v1
+      with:
+        timeout: 10
+        max-score: 1
+        setup-command: ''
+    - name: tests\test_task1.py
+      id: tests-test_task1-py
+      uses: classroom-resources/autograding-python-grader@v1
+      with:
+        timeout: 10
+        max-score: 1
+        setup-command: ''
+    - name: tests\test_task3.py
+      id: tests-test_task3-py
+      uses: classroom-resources/autograding-python-grader@v1
+      with:
+        timeout: 10
+        max-score: 1
+        setup-command: ''
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TESTS-TEST_TASK2-PY_RESULTS: "${{steps.tests-test_task2-py.outputs.result}}"
+        TESTS-TEST_TASK1-PY_RESULTS: "${{steps.tests-test_task1-py.outputs.result}}"
+        TESTS-TEST_TASK3-PY_RESULTS: "${{steps.tests-test_task3-py.outputs.result}}"
+      with:
+        runners: tests-test_task2-py,tests-test_task1-py,tests-test_task3-py
