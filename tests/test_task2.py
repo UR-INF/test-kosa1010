@@ -5,4 +5,4 @@ def test_palindrome_true():
     assert is_palindrome("Anna".lower())
 
 def test_palindrome_false():
-    assert not is_palindrome("python")
+    assert not is_palindrome("python2")

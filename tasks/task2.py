@@ -3,5 +3,5 @@ Zadanie 2: Napisz funkcję is_palindrome(s), która zwraca True jeśli napis s j
 """
 
 def is_palindrome(s):
-    # TODO: Zaimplementuj funkcję
-    pass
+    s = s.lower()
+    return s == s[::-1]
